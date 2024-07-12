@@ -64,4 +64,13 @@ class VoucherController extends Controller implements HasMiddleware
 
         return response()->json(['message' => 'Voucher deleted successfully.']);
     }
+
+    public function destroyByCode(string $voucherCode): JsonResponse
+    {
+        $voucher = $this->voucherService->getVoucherBy('code', $voucherCode);
+
+        $voucher->delete();
+
+        return response()->json(['message' => 'Voucher deleted successfully.']);
+    }
 }
