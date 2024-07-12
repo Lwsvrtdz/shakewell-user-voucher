@@ -44,6 +44,12 @@ class VoucherController extends Controller implements HasMiddleware
         return (new VoucherResourceCollection($vouchers));
     }
 
+    /**
+     * Generate voucher by user
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function generateVoucher(Request $request): JsonResponse
     {
         $voucher = $this->voucherService->generateVoucherByUser(auth()->user());
@@ -51,6 +57,12 @@ class VoucherController extends Controller implements HasMiddleware
         return response()->json(['message' => 'Voucher generated successfully.', 'voucher' => $voucher]);
     }
 
+    /**
+     * Get voucher by code
+     *
+     * @param string $voucherCode
+     * @return VoucherResource
+     */
     public function show(string $voucherCode): VoucherResource
     {
         $voucher = $this->voucherService->getVoucherBy('code', $voucherCode);
@@ -58,6 +70,12 @@ class VoucherController extends Controller implements HasMiddleware
         return (new VoucherResource($voucher));
     }
 
+    /**
+     * Delete voucher by id
+     *
+     * @param Voucher $voucher
+     * @return JsonResponse
+     */
     public function destroy(Voucher $voucher): JsonResponse
     {
         $voucher->delete();
@@ -65,6 +83,12 @@ class VoucherController extends Controller implements HasMiddleware
         return response()->json(['message' => 'Voucher deleted successfully.']);
     }
 
+    /**
+     * Delete voucher by code
+     *
+     * @param string $voucherCode
+     * @return JsonResponse
+     */
     public function destroyByCode(string $voucherCode): JsonResponse
     {
         $voucher = $this->voucherService->getVoucherBy('code', $voucherCode);
