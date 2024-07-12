@@ -6,6 +6,7 @@ This project is a User Registration API built with Laravel. It allows users to r
 ## Features
 - User Registration with unique username and email.
 - Welcome email with a unique voucher code upon registration.
+- **Event and Listener** for generating voucher and sending email upon registration.
 - Authenticated users can:
   - Generate unique voucher codes.
   - View their own voucher codes.
