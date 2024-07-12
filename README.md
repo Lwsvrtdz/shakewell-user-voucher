@@ -1,5 +1,5 @@
 # User Registration API
-This application is built using Laravel 11.x utilizes Mailtrap for Email engine
+This application is built using Laravel 11.x utilizes Mailtrap for Email engine, PHPUnit for testing
 ## Overview
 This project is a User Registration API built with Laravel. It allows users to register with a unique username, first name, password, and email address. Upon successful registration, a welcome email containing a unique voucher code is sent to the user. Authenticated users can generate, view, and delete their own voucher codes, with a limit of 10 codes per user.
 
