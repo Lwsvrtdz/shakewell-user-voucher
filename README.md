@@ -18,7 +18,7 @@ This project is a User Registration API built with Laravel. It allows users to r
 ## Installation
 1. Clone the repository:
 ```
-git clone https://github.com/your-repo/shakewell-user-voucher.git
+git clone https://github.com/Lwsvrtdz/shakewell-user-voucher.git
 cd shakewell-user-voucher
 ```
 
