@@ -40,6 +40,7 @@ php artisan key:generate
 php artisan migrate
 ```
 6. Set up your mail configuration in the `.env` file:
+```
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=2525
@@ -48,6 +49,7 @@ MAIL_PASSWORD=your_mailtrap_password
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=from@example.com
 MAIL_FROM_NAME="${APP_NAME}"
+```
 
 
 # Running Tests
