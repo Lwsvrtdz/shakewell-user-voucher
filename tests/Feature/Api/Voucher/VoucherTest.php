@@ -12,28 +12,10 @@ class VoucherTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user;
-
-    protected $token;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-
-        $this->user = User::factory()->create(['password' => 'test12345']);
-
-        $response = $this->postJson('/api/users/login', [
-            'username' => $this->user->username,
-            'password' => 'test12345',
-        ]);
-
-        $this->token = $response->json('accessToken');
-    }
-
     #[Test]
     public function itShouldReturnVouchersByUser()
     {
+        $this->setAuthenticatedUser();
         $vouchers = Voucher::factory()->count(5)->create([
             'user_id' => $this->user->id,
         ]);
@@ -60,13 +42,12 @@ class VoucherTest extends TestCase
     #[Test]
     public function itShouldReturnVoucherByCode()
     {
+        $this->setAuthenticatedUser();
         $voucher = Voucher::factory()->create([
             'user_id' => $this->user->id,
         ]);
-        $response = $this->getJson('/api/vouchers/' . $voucher->code, [
-            'Authorization' => 'Bearer ' . $this->token,
-            'Accept' => 'application/json',
-        ]);
+
+        $response = $this->json('GET', '/api/vouchers/' . $voucher->code);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -84,6 +65,7 @@ class VoucherTest extends TestCase
     #[Test]
     public function itShouldReturn404IfWrongCode()
     {
+        $this->setAuthenticatedUser();
         $response = $this->getJson('/api/vouchers/wrongcode', [
             'Authorization' => 'Bearer ' . $this->token,
             'Accept' => 'application/json',

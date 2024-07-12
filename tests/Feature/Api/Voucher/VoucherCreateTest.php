@@ -12,28 +12,17 @@ class VoucherCreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user;
-
-    protected $token;
-
-    protected function setUp(): void
+    public function itShouldUnauthorizedIfNotLoggedIn()
     {
-        parent::setUp();
+        $response = $this->postJson('/api/vouchers/generate');
 
-
-        $this->user = User::factory()->create(['password' => 'test12345']);
-
-        $response = $this->postJson('/api/users/login', [
-            'username' => $this->user->username,
-            'password' => 'test12345',
-        ]);
-
-        $this->token = $response->json('accessToken');
+        $response->assertStatus(401);
     }
 
     #[Test]
     public function itShouldGenerateVoucher()
     {
+        $this->setAuthenticatedUser();
         $response = $this->postJson('/api/vouchers/generate', [], [
             'Authorization' => 'Bearer ' . $this->token,
             'Accept' => 'application/json',
@@ -51,6 +40,7 @@ class VoucherCreateTest extends TestCase
     #[Test]
     public function itShouldNotGenerateIfItExceedsLimit()
     {
+        $this->setAuthenticatedUser();
         $vouchers = Voucher::factory()->count(10)->create([
             'user_id' => $this->user->id
         ]);

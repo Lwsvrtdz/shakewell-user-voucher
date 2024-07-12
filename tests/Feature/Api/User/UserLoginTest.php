@@ -44,6 +44,7 @@ class UserLoginTest extends TestCase
     public function itShouldReturn401IfWrongCredentials()
     {
         $response = $this->postJson(self::API_URL, ['username' => 'wrong', 'password' => 'wrong123']);
+
         $response->assertStatus(401);
     }
 }
