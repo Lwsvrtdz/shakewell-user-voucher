@@ -7,7 +7,7 @@ use App\Models\Voucher;
 
 class VoucherLimitService
 {
-    private const MAX_VOUCHERS_PER_USER = 3;
+    private const MAX_VOUCHERS_PER_USER = 10;
 
     public function hasExceedLimit(User $user): bool
     {
