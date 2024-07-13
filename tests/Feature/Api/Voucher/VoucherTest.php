@@ -97,6 +97,7 @@ class VoucherTest extends TestCase
         $this->assertEquals($voucher->code, $responseVoucher['code']);
     }
 
+    #[Test]
     public function itShouldReturn404IfWrongId()
     {
         $this->setAuthenticatedUser();
