@@ -9,6 +9,6 @@ Route::group(['prefix' => 'vouchers', 'as' => 'vouchers.'], function () {
         Route::post('/generate', [VoucherController::class, 'generateVoucher'])->name('generate');
         Route::delete('{voucher}', [VoucherController::class, 'destroy'])->name('destroy');
         Route::delete('{voucherCode}/code', [VoucherController::class, 'destroyByCode'])->name('destroy.code');
-        Route::get('{voucherCode}', [VoucherController::class, 'show'])->name('show');
+        Route::get('{value}/{key}', [VoucherController::class, 'show'])->name('show');
     });
 });

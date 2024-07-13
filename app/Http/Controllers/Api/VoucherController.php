@@ -60,12 +60,12 @@ class VoucherController extends Controller implements HasMiddleware
     /**
      * Get voucher by code
      *
-     * @param string $voucherCode
+     * @param string $value
      * @return VoucherResource
      */
-    public function show(string $voucherCode): VoucherResource
+    public function show(string $value, string $key = 'code'): VoucherResource
     {
-        $voucher = $this->voucherService->getVoucherBy('code', $voucherCode);
+        $voucher = $this->voucherService->getVoucherBy($key, $value);
 
         return (new VoucherResource($voucher));
     }

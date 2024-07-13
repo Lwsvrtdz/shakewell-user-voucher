@@ -47,7 +47,7 @@ class VoucherTest extends TestCase
             'user_id' => $this->user->id,
         ]);
 
-        $response = $this->json('GET', '/api/vouchers/' . $voucher->code);
+        $response = $this->json('GET', '/api/vouchers/' . $voucher->code . '/code');
 
         $response->assertStatus(200)
             ->assertJson([
@@ -66,7 +66,41 @@ class VoucherTest extends TestCase
     public function itShouldReturn404IfWrongCode()
     {
         $this->setAuthenticatedUser();
-        $response = $this->getJson('/api/vouchers/wrongcode', [
+        $response = $this->getJson('/api/vouchers/wrongcode/code', [
+            'Authorization' => 'Bearer ' . $this->token,
+            'Accept' => 'application/json',
+        ]);
+
+        $response->assertStatus(404);
+    }
+
+    #[Test]
+    public function itCanSearchUsingId()
+    {
+        $this->setAuthenticatedUser();
+        $voucher = Voucher::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $response = $this->json('GET', '/api/vouchers/' . $voucher->id . '/id');
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'id' => $voucher->id,
+                'code' => $voucher->code,
+                'user_id' => $this->user->id,
+                'created_at' => $voucher->created_at->toISOString(),
+                'updated_at' => $voucher->updated_at->toISOString(),
+            ]);
+
+        $responseVoucher = $response->json();
+        $this->assertEquals($voucher->code, $responseVoucher['code']);
+    }
+
+    public function itShouldReturn404IfWrongId()
+    {
+        $this->setAuthenticatedUser();
+        $response = $this->getJson('/api/vouchers/1123/id', [
             'Authorization' => 'Bearer ' . $this->token,
             'Accept' => 'application/json',
         ]);
