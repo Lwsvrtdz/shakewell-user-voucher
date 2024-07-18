@@ -65,6 +65,9 @@ class VoucherController extends Controller implements HasMiddleware
      */
     public function show(string $value, string $key = 'code'): VoucherResource
     {
+        if (!in_array($key, ['code', 'id'])) {
+            abort(response()->json(['error' => 'Unknown key'], 404));
+        }
         $voucher = $this->voucherService->getVoucherBy($key, $value);
 
         return (new VoucherResource($voucher));
@@ -92,7 +95,9 @@ class VoucherController extends Controller implements HasMiddleware
     public function destroyByCode(string $voucherCode): JsonResponse
     {
         $voucher = $this->voucherService->getVoucherBy('code', $voucherCode);
-
+        if ($voucher->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
         $voucher->delete();
 
         return response()->json(['message' => 'Voucher deleted successfully.']);
