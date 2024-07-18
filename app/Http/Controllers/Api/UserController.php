@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function register(UserRequest $request)
     {
-        $user = $this->userService->register($request->all());
+        $user = $this->userService->register($request->validated());
 
         return (new UserResource($user));
     }
@@ -39,7 +39,7 @@ class UserController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $data = $this->userService->login($request->all());
+        $data = $this->userService->login($request->validated());
 
         return response()->json($data);
     }
