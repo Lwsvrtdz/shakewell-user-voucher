@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\User\Interface\UserInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -42,5 +43,18 @@ class UserController extends Controller
         $data = $this->userService->login($request->validated());
 
         return response()->json($data);
+    }
+
+    /**
+     * Logout
+     *
+     * @param  \App\Http\Requests\LoginRequest  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        auth()->user()->tokens()->delete();
+
+        return response()->json(['message' => 'User logged out successfully.']);
     }
 }
